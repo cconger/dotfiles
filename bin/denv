@@ -1,0 +1,10 @@
+if [ -z "$TMUX" ]; then
+  # Not in tmux
+  tmux
+fi
+
+tmux rename-window $(basename $(pwd))
+tmux split-window -c $(pwd) -h -l 110
+tmux split-window -c $(pwd) -v -p 50
+tmux select-pane -t:.0 
+vim .
