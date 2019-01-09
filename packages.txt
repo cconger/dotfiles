@@ -8,6 +8,7 @@ bat
 fzf
 reattach-to-user-namespace
 powerlevel9k
+hexyl
 
 [git]
 vundle
