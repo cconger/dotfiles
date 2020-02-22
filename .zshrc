@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/congerc/.oh-my-zsh
+export ZSH=/Users/cconger/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -58,19 +58,19 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin"
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH="$HOME/Code/go"
-export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/bin:$HOME/.cargo/bin"
 
 source $ZSH/oh-my-zsh.sh
 
 setopt auto_cd
 cdpath=($HOME/Code $HOME/Code/go/src/code.justin.tv $HOME/Code/go/src)
 
-BASE16_SHELL=$HOME/.config/base16-shell
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+#BASE16_SHELL=$HOME/.config/base16-shell
+#[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 alias vim="nvim"
 
 # Requires bat installed
-#alias cat="bat"
+alias cat="bat"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -99,6 +99,7 @@ alias vim="nvim"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export EDITOR="nvim"
 
 #bindkey -v
 #bindkey '^r' history-incremental-search-backward
@@ -111,3 +112,11 @@ POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 POWERLEVEL9K_SHORTEN_STRATEGY="trucate_to_unique"
 export GPG_TTY=$(tty)
 
+export DOCKER_BUILDKIT=1
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/cconger/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cconger/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/cconger/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cconger/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

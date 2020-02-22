@@ -1,40 +1,35 @@
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
 
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 "Plugin 'w0rp/ale'
-Plugin 'junegunn/fzf'
-Plugin 'fatih/vim-go'
-Plugin 'chriskempson/base16-vim'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'godlygeek/tabular'
-Plugin 'cespare/vim-toml'
-Plugin 'hashivim/vim-terraform'
+Plug 'itchyny/lightline.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'morhetz/gruvbox'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'Quramy/tsuquyomi'
+Plug 'pangloss/vim-javascript'
+Plug 'scrooloose/nerdtree'
+Plug 'godlygeek/tabular'
+Plug 'cespare/vim-toml'
+Plug 'hashivim/vim-terraform'
+Plug 'w0rp/ale'
 
-call vundle#end() 
+call plug#end() 
 filetype plugin indent on
 
 let g:ale_linters = {
-      \  'typescript': ['tslint']
+      \ 'python': ['pylint', 'flake8']
       \}
 
 let g:ale_fixers = {
-      \ 'typescript': ['tslint'] 
+      \ 'python': ['autopep8'] 
       \}
 
-" Disable these when you're old enough
-"noremap <Up> ""
-"noremap! <Up> <Esc>
-"noremap <Down> ""
-"noremap! <Down> <Esc>
-"noremap <Left> ""
-"noremap! <Left> <Esc>
-"noremap <Right> ""
-"noremap! <Right> <Esc>
+let NERDTreeShowHidden = 1
 
 set backspace=2
 
@@ -64,9 +59,11 @@ set ruler
 " Show matching brackets
 set showmatch
 
-"80 line limit for Comments
+"109 line limit for Comments
 set formatoptions-=t
 set textwidth=109
+
+set scrolloff=10
 
 "Search
 set hls
@@ -84,8 +81,12 @@ set dir=~/.tmp/swap
 set rtp+=/usr/local/opt/fzf
 map <C-p> :FZF<CR>
 
-let base16colorspace=256
-colorscheme base16-eighties
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+let g:lightline = { 'colorshcmee': 'gruvbox' }
+colorscheme gruvbox
 
 set number
 "set cursorline
@@ -104,3 +105,4 @@ highlight StatusLineNC ctermfg=3
 highlight VertSplit ctermbg=NONE ctermfg=15
 highlight CursorLine ctermbg=0
 highlight LineNr ctermbg=NONE
+
