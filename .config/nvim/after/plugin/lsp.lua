@@ -1,7 +1,38 @@
-require'cmp'.setup {
+local cmp = require('cmp')
+cmp.setup {
   sources = {
-    { name = 'nvim_lsp' }
-  }
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end
+  },
+  mapping = {
+    ['<C-Space>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if not cmp.select_next_item() then
+        if vim.bo.buftype ~= 'prompt' then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if not cmp.select_prev_item() then
+        if vim.bo.buftype ~= 'prompt' then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+  },
 }
 
 require('mason').setup()
