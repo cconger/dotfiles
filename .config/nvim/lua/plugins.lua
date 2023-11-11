@@ -1,49 +1,63 @@
-vim.cmd [[packadd packer.nvim]]
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
 
-return require('packer').startup(function(use)
+require("lazy").setup({
 	-- Utlities
-	use 'wbthomason/packer.nvim'
-  use 'nvim-lua/plenary.nvim'
+	'wbthomason/packer.nvim',
+	'nvim-lua/plenary.nvim',
 
 	-- Navigation
-  use 'preservim/nerdtree'
-  use 'nvim-telescope/telescope.nvim'
+	'preservim/nerdtree',
+	'nvim-telescope/telescope.nvim',
 
 	-- LSP
-	use 'hrsh7th/nvim-cmp'
-	use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-vsnip'
-  use({
-    "L3MON4D3/LuaSnip",
-    -- follow latest release.
-    tag = "v<CurrentMajor>.*",
-    -- install jsregexp (optional!:).
-    run = "make install_jsregexp"
-  })
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
-  use 'neovim/nvim-lspconfig'
+	'hrsh7th/nvim-cmp',
+	'hrsh7th/cmp-nvim-lsp',
+	'hrsh7th/cmp-vsnip',
+	{
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "v2.*",
+		-- install jsregexp (optional!:).
+		build = "make install_jsregexp"
+	},
+	'williamboman/mason.nvim',
+	'williamboman/mason-lspconfig.nvim',
+	'neovim/nvim-lspconfig',
 
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
 	-- Style
-	use 'ellisonleao/gruvbox.nvim'
-  use 'itchyny/lightline.vim'
+	'ellisonleao/gruvbox.nvim',
+	'itchyny/lightline.vim',
 
 	-- Other
-  use 'kylechui/nvim-surround'
+	'kylechui/nvim-surround',
 
-  -- Copilot
-  use {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end
-  }
-  use { "zbirenbaum/copilot-cmp", after = "copilot.lua", config = function() require("copilot_cmp").setup() end }
-end)
+	-- Copilot
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
+		end
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function() require("copilot_cmp").setup() end
+	},
+})
