@@ -1,7 +1,15 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=65535
+SAVEHIST=65535
+
+setopt append_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt share_history
+setopt interactive_comments
+
 setopt autocd
 bindkey -v
 # End of lines configured by zsh-newuser-install
@@ -43,9 +51,3 @@ source ~/.config/zsh/completion.zsh
 source ~/.config/zsh/key-bindings.zsh
 
 alias vim="nvim"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/cconger/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/cconger/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/cconger/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/cconger/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
