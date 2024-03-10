@@ -16,6 +16,9 @@ m.lsp_keys = function(client, bufnr)
 	vim.keymap.set("n", "<leader>lk", function() vim.diagnostic.goto_prev({buffer=bufnr}) end, opts)
 	vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
+	vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)
+	vim.keymap.set("n", "<leader>lc", vim.lsp.buf.incoming_calls, opts)
+	vim.keymap.set("n", "<leader>lC", vim.lsp.buf.outgoing_calls, opts)
 end
 
 -- Telescope
