@@ -1,3 +1,6 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -17,20 +20,20 @@ require("lazy").setup({
 	'nvim-lua/plenary.nvim',
 
 	-- Navigation
-	'preservim/nerdtree',
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
 	'nvim-telescope/telescope.nvim',
 
 	-- LSP
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
-	'hrsh7th/cmp-vsnip',
-	{
-		"L3MON4D3/LuaSnip",
-		-- follow latest release.
-		version = "v2.*",
-		-- install jsregexp (optional!:).
-		build = "make install_jsregexp"
-	},
+
 	'williamboman/mason.nvim',
 	'williamboman/mason-lspconfig.nvim',
 	'neovim/nvim-lspconfig',
@@ -38,8 +41,11 @@ require("lazy").setup({
 	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
 	-- Style
+	{
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' }
+	},
 	'ellisonleao/gruvbox.nvim',
-	'itchyny/lightline.vim',
 
 	-- Other
 	'kylechui/nvim-surround',

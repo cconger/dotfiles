@@ -1,7 +1,8 @@
 
 vim.cmd [[colorscheme gruvbox]]
-vim.g.lightline = [[
-{
-	'colorscheme': 'gruvbox'
+
+require('lualine').setup {
+  options = {
+    theme = 'gruvbox'
+  }
 }
-]]

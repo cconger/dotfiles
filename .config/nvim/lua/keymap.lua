@@ -17,14 +17,21 @@ m.lsp_keys = function(client, bufnr)
 	vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, opts)
-	vim.keymap.set("n", "<leader>lc", vim.lsp.buf.incoming_calls, opts)
-	vim.keymap.set("n", "<leader>lC", vim.lsp.buf.outgoing_calls, opts)
+
+  -- Use Telescope 
+	local builtin = require('telescope.builtin')
+	vim.keymap.set("n", "<leader>lc", builtin.lsp_incoming_calls, {})
+	vim.keymap.set("n", "<leader>lC", builtin.lsp_incoming_calls, {})
+	vim.keymap.set("n", "<leader>ld", builtin.diagnostics, opts)
+	--vim.keymap.set('n', '<leader>lr', builtin.references, opts)
 end
 
 -- Telescope
 m.telescope_keys = function(ts)
+	local builtin = require('telescope.builtin')
+
 	vim.keymap.set('n', '<C-p>', ts.find_files, {})
-	vim.keymap.set('n', '<leader>ff', ts.find_files, {})
+	vim.keymap.set('n', '<leader>ff', builtin.oldfiles, {})
 	vim.keymap.set('n', '<leader>fl', ts.git_files, {})
 	vim.keymap.set('n', '<leader>fg', ts.live_grep, {})
 	vim.keymap.set('n', '<leader>ft', ts.grep_string, {})
@@ -33,6 +40,8 @@ end
 m.setup = function()
 	vim.keymap.set("n", "<space>", '', {})
 	vim.g.mapleader = ' '
+
+  vim.keymap.set("n", "<leader>fo", ":NvimTreeToggle<CR>", {})
 end
 
 return m

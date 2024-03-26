@@ -3,11 +3,9 @@ cmp.setup {
   sources = {
     { name = "copilot", group_index = 2 },
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
   },
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
     end
   },
   mapping = {
