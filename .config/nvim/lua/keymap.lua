@@ -28,20 +28,20 @@ end
 
 -- Telescope
 m.telescope_keys = function(ts)
-	local builtin = require('telescope.builtin')
-
 	vim.keymap.set('n', '<C-p>', ts.find_files, {})
-	vim.keymap.set('n', '<leader>ff', builtin.oldfiles, {})
+	vim.keymap.set('n', '<leader>ff', ts.oldfiles, {})
 	vim.keymap.set('n', '<leader>fl', ts.git_files, {})
 	vim.keymap.set('n', '<leader>fg', ts.live_grep, {})
 	vim.keymap.set('n', '<leader>ft', ts.grep_string, {})
+
+  vim.keymap.set("n", "<leader>fo", ":Telescope file_browser<CR>")
+  vim.keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
 end
 
 m.setup = function()
 	vim.keymap.set("n", "<space>", '', {})
 	vim.g.mapleader = ' '
 
-  vim.keymap.set("n", "<leader>fo", ":NvimTreeToggle<CR>", {})
 end
 
 return m

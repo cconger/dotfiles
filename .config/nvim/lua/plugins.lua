@@ -1,6 +1,3 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -20,15 +17,11 @@ require("lazy").setup({
 	'nvim-lua/plenary.nvim',
 
 	-- Navigation
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-  },
 	'nvim-telescope/telescope.nvim',
+	{
+		'nvim-telescope/telescope-file-browser.nvim',
+		depedencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'},
+	},
 
 	-- LSP
 	'hrsh7th/nvim-cmp',
