@@ -1,0 +1,47 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "theme": "Ayu Dark",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "vim_mode": true,
+  "ui_font_size": 14,
+  "buffer_font_family": "Berkeley Mono",
+  "buffer_font_size": 11,
+  "buffer_font_weight": 600,
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "use_autoclose": false,
+  "cursor_blink": false,
+  "relative_line_numbers": true,
+  "buffer_line_height": {
+    "custom": 1.3
+  },
+  "terminal": {
+    "dock": "right",
+    "line_height": "standard",
+    "default_width": 800
+  },
+  "assistant": {
+    "default_model": {
+      "provider": "openai",
+      "model": "gpt-4o"
+    },
+    "default_height": 800.0,
+    "version": "2",
+    "enabled": true,
+    "dock": "right",
+    "default_width": 800
+  }
+}

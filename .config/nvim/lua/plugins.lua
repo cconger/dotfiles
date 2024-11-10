@@ -17,10 +17,24 @@ require("lazy").setup({
 	'nvim-lua/plenary.nvim',
 
 	-- Navigation
-	'nvim-telescope/telescope.nvim',
+  -- Telescope is slow?
+--	'nvim-telescope/telescope.nvim',
+--	{
+--		'nvim-telescope/telescope-file-browser.nvim',
+--		depedencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'},
+--	},
+
+  'junegunn/fzf',
+  {
+    'junegunn/fzf.vim',
+    dependencies = { 'junegunn/fzf' },
+  },
+
+	'stevearc/oil.nvim',
 	{
-		'nvim-telescope/telescope-file-browser.nvim',
-		depedencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'},
+		'stevearc/oil.nvim',
+    opts = {},
+		depedencies = { 'nvim-tree/nvim-web-devicons' },
 	},
 
 	-- LSP
