@@ -1,0 +1,24 @@
+font-family = "Berkeley Mono"
+font-size = 11
+# window-decoration = false
+macos-titlebar-style = tabs
+
+keybind = control+b>l=goto_split:right
+keybind = control+b>h=goto_split:left
+keybind = control+b>j=goto_split:bottom
+keybind = control+b>k=goto_split:top
+keybind = control+b>shift+'=new_split:down
+keybind = control+b>shift+5=new_split:right
+keybind = control+b>z=toggle_split_zoom
+
+keybind = control+b>n=next_tab
+keybind = control+b>p=previous_tab
+keybind = control+b>c=new_tab
+
+keybind = control+u=scroll_page_up
+keybind = control+d=scroll_page_down
+
+keybind = control+b>f=write_screen_file:paste
+keybind = control+b>shift+f=write_scrollback_file:paste
+keybind = control+shift+9=jump_to_prompt:-1
+keybind = control+shift+0=jump_to_prompt:1
