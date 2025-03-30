@@ -1,93 +1,18 @@
-local cmp = require('cmp')
-cmp.setup {
-  sources = {
-    { name = "copilot", group_index = 2 },
-    { name = 'nvim_lsp' },
-  },
-  snippet = {
-    expand = function(args)
-    end
-  },
-  mapping = {
-    ['<C-Space>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    },
-    ['<Tab>'] = function(fallback)
-      if not cmp.select_next_item() then
-        if vim.bo.buftype ~= 'prompt' then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if not cmp.select_prev_item() then
-        if vim.bo.buftype ~= 'prompt' then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end
-    end,
-  },
-}
-
-require('mason').setup()
-
-require('mason-lspconfig').setup({
-	ensure_installed = {
-	}
-})
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-
-local lsp_attach = function(client, bufnr)
-	-- keybinds
-	require("keymap").lsp_keys(client, bufnr)
-
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
-end
-
-
-local lspconfig = require('lspconfig')
-require('mason-lspconfig').setup_handlers({
-	function(server_name)
-		opts = {
-			on_attach = lsp_attach,
-			capabilities = capabilities,
-		}
-
-		local require_ok, conf_opts = pcall(require, "lsp.configs."..server_name)
-		if require_ok then
-			opts = vim.tbl_deep_extend("force", conf_opts, opts)
-		end
-
-		lspconfig[server_name].setup(opts)
-	end
-})
-
-local signs = {
-  { name = "DiagnosticSignError", text = "" },
-  { name = "DiagnosticSignWarn", text = "" },
-  { name = "DiagnosticSignHint", text = "" },
-  { name = "DiagnosticSignInfo", text = "" },
-}
-
-for _, sign in ipairs(signs) do
-  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-end
-
 local config = {
-  virtual_text = false, -- disable virtual text
-  signs = {
-    active = signs, -- show signs
-  },
-  update_in_insert = true,
+  virtual_text = {
+    current_line = true,
+  }, -- disable virtual text
+  update_in_insert = false,
   underline = true,
   severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "⚠︎",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+    }
+  },
   float = {
     focusable = true,
     style = "minimal",
@@ -100,10 +25,16 @@ local config = {
 
 vim.diagnostic.config(config)
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "rounded",
+vim.lsp.enable({
+  "lua-language-server",
+  "pyright",
+  "ruff",
+  "rust-analyzer",
+  "gopls",
+  -- TODO: Create their configs and re-enable
+  -- "buf-language-server",
+  -- "terraform-ls",
+  ---"tilt",
+  -- "typescript-language-server",
+  -- "zls",
 })

@@ -7,7 +7,7 @@ vim.o.autoindent=true
 vim.o.wrap=true
 vim.o.ruler=true
 
-vim.o.textwidth=109
+-- vim.o.textwidth=109
 vim.o.scrolloff=10
 
 vim.o.hls=true
@@ -16,3 +16,5 @@ vim.o.termguicolors=true
 
 vim.o.number=true
 vim.o.relativenumber=true
+
+vim.o.winborder = "rounded"

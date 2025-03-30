@@ -1,70 +1,114 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
-		lazypath,
-	})
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- Utlities
-	'wbthomason/packer.nvim',
-	'nvim-lua/plenary.nvim',
+  -- Utilities
+  'nvim-lua/plenary.nvim',
 
-	-- Navigation
-  -- Telescope is slow?
---	'nvim-telescope/telescope.nvim',
---	{
---		'nvim-telescope/telescope-file-browser.nvim',
---		depedencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'},
---	},
-
-  'junegunn/fzf',
+  -- Copilot
   {
-    'junegunn/fzf.vim',
-    dependencies = { 'junegunn/fzf' },
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      copilot_node_command = '/usr/local/bin/node',
+      copilot_model = 'gpt-4o-copilot',
+    },
   },
 
-	'stevearc/oil.nvim',
-	{
-		'stevearc/oil.nvim',
+  -- Navigation
+  {
+    'ibhagwan/fzf-lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local fzf = require('fzf-lua')
+      fzf.setup({ 'fzf-vim' })
+      require('keymap').fzf_keys(fzf)
+    end
+  },
+  'stevearc/oil.nvim',
+  {
+    'stevearc/oil.nvim',
     opts = {},
-		depedencies = { 'nvim-tree/nvim-web-devicons' },
-	},
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+  },
 
-	-- LSP
-	'hrsh7th/nvim-cmp',
-	'hrsh7th/cmp-nvim-lsp',
+  -- LSP
+  {
+    'nvimtools/none-ls.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = {
+    },
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup(
+        {
+          sources = {
+            -- null_ls.builtins.code_actions.gitsigns,
+            null_ls.builtins.diagnostics.codespell,
+            -- null_ls.builtins.diagnostics.mypy,
+            null_ls.builtins.formatting.isort,
+            null_ls.builtins.formatting.black,
+            null_ls.builtins.formatting.prettierd,
+          }
+        }
+      )
+    end
+  },
 
-	'williamboman/mason.nvim',
-	'williamboman/mason-lspconfig.nvim',
-	'neovim/nvim-lspconfig',
+  -- Completion
+  {
+    'saghen/blink.cmp',
+    version = '1.*',
+    dependencies = { "fang2hou/blink-copilot" },
+    opts = {
+      keymap = {
+        preset = 'default',
+        ['<C-j>'] = { 'select_next', 'fallback' },
+        ['<C-k>'] = { 'select_prev', 'fallback' },
+        ['<Tab>'] = { 'accept', 'fallback' },
+      },
+      completion = { documentation = { auto_show = false } },
+      sources = {
+        default = {
+          'lsp',
+          'path',
+          'copilot',
+        },
+        providers = {
+          copilot = {
+            name = 'copilot',
+            module = 'blink-copilot',
+            async = true,
+          },
+        },
+      },
+    },
+  },
 
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+  'williamboman/mason.nvim',
 
-	-- Style
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' }
-	},
-	'ellisonleao/gruvbox.nvim',
+  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
-	-- Other
-	'kylechui/nvim-surround',
+  -- Style
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+  'ellisonleao/gruvbox.nvim',
 
-	-- Copilot
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function() require("copilot_cmp").setup() end
-	},
+  -- Other
+  'kylechui/nvim-surround',
 })
