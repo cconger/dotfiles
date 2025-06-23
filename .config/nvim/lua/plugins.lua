@@ -22,9 +22,37 @@ require("lazy").setup({
     event = "InsertEnter",
     opts = {
       suggestion = { enabled = false },
-      panel = { enabled = false },
-      copilot_node_command = '/usr/local/bin/node',
-      copilot_model = 'gpt-4o-copilot',
+      panel = {
+        enabled = true,
+      },
+      -- copilot_node_command = '/usr/local/bin/node',
+      -- copilot_model = 'gpt-4.1',
+    },
+  },
+
+  -- CodeCompanion
+  {
+    "olimorris/codecompanion.nvim",
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "openai",
+        },
+        inline = {
+          adapter = "openai",
+        }
+      },
+      adapters = {
+        openai = function()
+          return require("codecompanion.adapters").extend("openai", {})
+        end,
+      },
+      opts = {
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
     },
   },
 
@@ -87,6 +115,9 @@ require("lazy").setup({
           'path',
           'copilot',
         },
+        per_filetype = {
+          codecompanion = { "codecompanion" },
+        },
         providers = {
           copilot = {
             name = 'copilot',
@@ -111,4 +142,78 @@ require("lazy").setup({
 
   -- Other
   'kylechui/nvim-surround',
+
+  {
+    'mfussenegger/nvim-dap',
+    config = function()
+      local dap = require('dap')
+
+      vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+
+      dap.adapters.python = function(cb, config)
+        if config.request == 'attach' then
+          ---@diagnostic disable-next-line: undefined-field
+          local port = (config.connect or config).port
+          ---@diagnostic disable-next-line: undefined-field
+          local host = (config.connect or config).host or '127.0.0.1'
+          cb({
+            type = 'server',
+            port = assert(port, '`connect.port` is required for a python `attach` configuration'),
+            host = host,
+            options = {
+              source_filetype = 'python',
+            },
+          })
+
+        else
+          cb({
+            type = 'executable',
+            command = '/Users/cconger/.virtualenvs/openai/bin/python',
+            args = { '-m', 'debugpy.adapter' },
+            options = {
+              source_filetype = 'python',
+            },
+          })
+        end
+      end
+
+      dap.configurations.python = {
+        {
+          type = 'python';
+          request = 'launch';
+          name = "Launch file";
+
+          program = "${file}"; -- This configuration will launch the current file if used.
+          pythonPath = function()
+            -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+            -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+            -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+            local cwd = vim.fn.getcwd()
+            if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+              return cwd .. '/venv/bin/python'
+            elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+              return cwd .. '/.venv/bin/python'
+            else
+              return '/Users/cconger/.virtualenvs/openai/bin/python'
+            end
+          end;
+        },
+        {  -- Attach to debugpy on port 8100
+          name    = 'Attach to localhost:8100',
+          type    = 'python',
+          request = 'attach',
+          connect = { host = '127.0.0.1', port = 8100 },
+          justMyCode = false,
+        },
+        {  -- Attach to debugpy on port 8181
+          name    = 'Attach to localhost:8181',
+          type    = 'python',
+          request = 'attach',
+          connect = { host = '127.0.0.1', port = 8181 },
+          justMyCode = false,
+        },
+      }
+      require("keymap").dap_keys(dap, require("dap.ui.widgets"))
+    end
+  },
 })

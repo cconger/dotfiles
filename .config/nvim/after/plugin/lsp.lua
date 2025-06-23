@@ -26,15 +26,15 @@ local config = {
 vim.diagnostic.config(config)
 
 vim.lsp.enable({
+  "buf-language-server",
+  "gopls",
   "lua-language-server",
   "pyright",
   "ruff",
   "rust-analyzer",
-  "gopls",
+  "terraform-ls",
+  "tilt",
+  "typescript-language-server",
   -- TODO: Create their configs and re-enable
-  -- "buf-language-server",
-  -- "terraform-ls",
-  ---"tilt",
-  -- "typescript-language-server",
   -- "zls",
 })

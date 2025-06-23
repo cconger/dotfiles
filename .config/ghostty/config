@@ -14,6 +14,7 @@ keybind = control+b>z=toggle_split_zoom
 keybind = control+b>n=next_tab
 keybind = control+b>p=previous_tab
 keybind = control+b>c=new_tab
+keybind = control+b>control+b=text:\x02
 
 keybind = control+u=scroll_page_up
 keybind = control+d=scroll_page_down
